@@ -72,6 +72,12 @@ class JPush {
         _channel.invokeMethod('applyPushAuthority', iosSettings.toMap());
     }
     
+    // 获取idfa
+    Future<String> getIdfa() async {
+        final String idfa = await _channel.invokeMethod('idfa');
+        return idfa;
+    }
+    
     ///
     /// 设置 Tag （会覆盖之前设置的 tags）
     /// 
