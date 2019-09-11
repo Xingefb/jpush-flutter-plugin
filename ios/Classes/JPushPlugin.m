@@ -4,6 +4,7 @@
 #endif
 
 #import <JPush/JPUSHService.h>
+#import <AdSupport/AdSupport.h>
 
 @interface NSError (FlutterError)
 @property(readonly, nonatomic) FlutterError *flutterError;
@@ -117,6 +118,8 @@ static NSMutableArray<FlutterResult>* getRidResults;
     [self setup:call result: result];
   } else if([@"applyPushAuthority" isEqualToString:call.method]) {
     [self applyPushAuthority:call result:result];
+  } else if([@"idfa" isEqualToString:call.method]) {
+    [self idfa:call result:result];
   } else if([@"setTags" isEqualToString:call.method]) {
     [self setTags:call result:result];
   } else if([@"cleanTags" isEqualToString:call.method]) {
@@ -182,6 +185,11 @@ static NSMutableArray<FlutterResult>* getRidResults;
   JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
   entity.types = notificationTypes;
   [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+}
+
+- (void)idfa:(FlutterMethodCall*)call result:(FlutterResult)result { 
+  NSString *advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+  result(advertisingId);
 }
 
 - (void)setTags:(FlutterMethodCall*)call result:(FlutterResult)result {
